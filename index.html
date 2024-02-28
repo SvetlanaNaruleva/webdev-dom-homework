@@ -101,16 +101,15 @@ let comments = [
 ];
 
 
-function showPreloader() {
+
     containerPreloader.textContent = 'Пожалуйста подождите, идет загрузка комментариев...';
     containerPreloaderPost.style.display = 'none';
-}
-showPreloader();
 
-function hidePreloader() {
-    containerPreloader.textContent = '';
-    containerPreloaderPost.style.display = 'block';
-}
+
+// function hidePreloader() {
+//     containerPreloader.textContent = '';
+//     containerPreloaderPost.style.display = 'block';
+// }
 
   //   // API Получить список комментариев c Get
   const fetchPromiseGet = () => {
@@ -140,9 +139,11 @@ function hidePreloader() {
         });
         // получили данные и рендерим их в приложении
         comments = appComments;
+        containerPreloader.textContent = '';
+        containerPreloaderPost.style.display = 'block';
         //console.log(comments)
         renderComments();
-        hidePreloader();
+        // hidePreloader();
         // preloader.classList.add('hide');
       })
       .then((data) => {
