@@ -106,11 +106,6 @@ let comments = [
     containerPreloaderPost.style.display = 'none';
 
 
-// function hidePreloader() {
-//     containerPreloader.textContent = '';
-//     containerPreloaderPost.style.display = 'block';
-// }
-
   //   // API Получить список комментариев c Get
   const fetchPromiseGet = () => {
 
@@ -143,8 +138,7 @@ let comments = [
         containerPreloaderPost.style.display = 'block';
         //console.log(comments)
         renderComments();
-        // hidePreloader();
-        // preloader.classList.add('hide');
+        
       })
       .then((data) => {
     buttonElement.disabled = false;
@@ -232,8 +226,6 @@ const renderComments = () => {
       postPromiseFetch();
     };
 
-    // buttonElement.disabled = true;
-    // buttonElement.textContent = 'Комментарий добавляется...';
 // Добавить новый комментарий, метод POST
       
     function postPromiseFetch() {
