@@ -10,7 +10,7 @@
     <div class="container">
       <div id="container-preloader"></div>
       <ul class="comments" id="list-comments" >
-        <li class="comment">
+        <!-- <li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
             <div>12.02.22 12:18</div>
@@ -43,7 +43,7 @@
               <button class="like-button"></button>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
       <div id="container-preloader-post"></div>
       <div class="add-form">
@@ -215,14 +215,14 @@ const renderComments = () => {
 // функция добавления нового комментария
     function addNewComment() {
      // добавление нового
-      comments.push({
-      name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-      time: new Date().toLocaleString(),
-      comment: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-      likes: 0,
-      isLiked: ''
-      });
-      renderComments();
+      // comments.push({
+      // name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+      // time: new Date().toLocaleString(),
+      // comment: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+      // likes: 0,
+      // isLiked: ''
+      // });
+      // renderComments();
       postPromiseFetch();
     };
 
@@ -235,9 +235,10 @@ const renderComments = () => {
          
         body: JSON.stringify({
 
-        name: textElement.value,
+        text: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+
+        name: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;")
  
-        text: nameElement.value 
     })
 
   }).then((response) => {
