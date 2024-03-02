@@ -140,10 +140,12 @@ let comments = [
         renderComments();
         
       })
-      .then((data) => {
-    buttonElement.disabled = false;
-    buttonElement.textContent = 'Написать';
-  })
+  //     .then((data) => {
+  //   buttonElement.disabled = false;
+  //   buttonElement.textContent = 'Написать';
+  //   nameElement.value = "";
+  //   textElement.value = "";
+  // })
   };
   fetchPromiseGet();
 
@@ -209,7 +211,7 @@ const renderComments = () => {
     answerComment();
   };
   
-    renderComments();
+    // renderComments();
 
 
 // функция добавления нового комментария
@@ -235,21 +237,54 @@ const renderComments = () => {
          
         body: JSON.stringify({
 
-        text: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+        text: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
 
-        name: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+        name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+
+        forceError: true
  
     })
 
   }).then((response) => {
 
-    //  fetchPromiseGet()
-    return response.json();
+    console.log(response);
 
+    if (response.status === 201) {
+      return response.json()
+    }else if (response.status === 500) {
+      throw new Error("Сервер упал")
+    }else if (response.status === 400) {
+      throw new Error("Недопустие количество символов")
+    }
+
+    // return response.json()
+    
   })
-  .then((responseData) => {
-    fetchPromiseGet();
-  });
+  .then(() => {
+
+    return fetchPromiseGet();
+  })
+  .then(() => {
+    buttonElement.disabled = false;
+    buttonElement.textContent = 'Написать';
+    nameElement.value = "";
+    textElement.value = "";
+  })
+  .catch((error) => {
+    buttonElement.disabled = false;
+    buttonElement.textContent = 'Написать';
+
+    if (error.message === "Сервер упал") {
+      alert("Сервер упал, попробуй еще раз")
+    }
+    if (error.message === "Недопустие количество символов") {
+      alert("Имя и комментарий должны быть не короче 3-х символов")
+    }
+    if (error.message === 'Failed to fetch') {
+      alert('Интернет не работает, попробуйте позже');
+    }
+    console.warn(error);
+  })
     };
     
     function inputValid() {
@@ -276,8 +311,8 @@ const renderComments = () => {
       }
       addNewComment();
 
-      nameElement.value = "";
-      textElement.value = "";
+      // nameElement.value = "";
+      // textElement.value = "";
       buttonElement.disabled = true;
       buttonElement.textContent = 'Еще чуть-чуть и все появится...';
     
