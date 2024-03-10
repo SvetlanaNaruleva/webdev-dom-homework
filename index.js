@@ -11,23 +11,7 @@ const containerPreloader = document.getElementById('container-preloader');
 const addForm = document.querySelector('.add-form');
 
 // переносим данные из разметки в JS
-let comments = [
-// {
-//   name: "Глеб Фокин",
-//   time: "12.02.22 12:18",
-//   comment: "Это будет первый комментарий на этой странице",
-//   likes: 3,
-//   isLiked: false
-// },
-// {
-//   name: "Варвара Н.",
-//   time: "13.02.22 19:22",
-//   comment: "Мне нравится как оформлена эта страница! ❤️",
-//   likes: 75,
-//   isLiked: false
-// },
-];
-
+let comments = [];
 
 
 containerPreloader.textContent = 'Пожалуйста подождите, идет загрузка комментариев...';
@@ -138,16 +122,9 @@ answerComment();
 
 // функция добавления нового комментария
 function addNewComment() {
- // добавление нового
-  // comments.push({
-  // name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-  // time: new Date().toLocaleString(),
-  // comment: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-  // likes: 0,
-  // isLiked: ''
-  // });
-  // renderComments();
+
   postPromiseFetch();
+
 };
 
 // Добавить новый комментарий, метод POST
@@ -178,8 +155,6 @@ if (response.status === 201) {
 }else if (response.status === 400) {
   throw new Error("Недопустие количество символов")
 }
-
-// return response.json()
 
 })
 .then(() => {
