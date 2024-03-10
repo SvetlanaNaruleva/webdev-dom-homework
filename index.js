@@ -1,16 +1,14 @@
-import {getPromise} from "./api.js"
+import {getPromise, postPromise} from "./api.js"
+import {renderComments} from "./render.js"
+
 
 "use strict";
 // Код писать здесь
 const nameElement = document.querySelector(".add-form-name");
 const textElement = document.querySelector(".add-form-text");
 const buttonElement = document.querySelector(".add-form-button");
-const commentsElements = document.querySelectorAll(".comment");
-const listCommentsElement = document.getElementById('list-comments');
-const likeButtonsElements = document.querySelectorAll('.likes');
 const containerPreloader = document.getElementById('container-preloader');
 const containerPreloaderPost = document.getElementById('container-preloader-post');
-const addForm = document.querySelector('.add-form');
 
 // переносим данные из разметки в JS
 let comments = [];
@@ -24,7 +22,7 @@ containerPreloaderPost.style.display = 'none';
 const fetchPromiseGet = () => {
 
 getPromise().then((responseData) => {
-    console.log(responseData);
+    // console.log(responseData);
     const appComments = responseData.comments.map((comment) => {
       return {
         name: comment.author.name,
@@ -39,7 +37,7 @@ getPromise().then((responseData) => {
     containerPreloader.textContent = '';
     containerPreloaderPost.style.display = 'block';
     //console.log(comments)
-    renderComments();
+    renderComments({comments, initEventListeners, answerComment});
     
   })
 };
@@ -64,7 +62,7 @@ for (const likesElement of likesElements) {
       comments[index].likes++;
     }
 
-    renderComments();
+    renderComments({comments, initEventListeners, answerComment});
 
   });
 }
@@ -79,37 +77,6 @@ function sanitize(text) {
   };
 
 
-// рендер
-const renderComments = () => {
-const commentsHtml = comments.map((comment, index) => {
-  return ` <li class="comment">
-      <div class="comment-header">
-        <div>${comment.name}</div>
-        <div>${comment.time}</div>
-      </div>
-      <div class="comment-body">
-        <div class="comment-text">
-          ${comment.comment}
-        </div>
-      </div>
-      <div class="comment-footer">
-        <div class="likes">
-          <span class="likes-counter">${comments[index].likes}</span>
-          <button data-index= "${index}" class="like-button ${comment.isLiked ? '-active-like' : ''}"></button>
-        </div>
-      </div>
-    </li> `
-}).join("");
-
-listCommentsElement.innerHTML = commentsHtml;   
-
-initEventListeners();     
-answerComment();
-};
-
-// renderComments();
-
-
 // функция добавления нового комментария
 function addNewComment() {
 
@@ -120,34 +87,38 @@ function addNewComment() {
 // Добавить новый комментарий, метод POST
   
 function postPromiseFetch() {
-  const fetchPromisePost = fetch("https://wedev-api.sky.pro/api/v1/Sveta-n/comments", {
 
-    method: 'POST',
+//    fetch("https://wedev-api.sky.pro/api/v1/Sveta-n/comments", {
+
+//     method: 'POST',
      
-    body: JSON.stringify({
+//     body: JSON.stringify({
 
-    text: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+//     text: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
 
-    name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+//     name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
 
-    forceError: true
+//     forceError: true
 
-})
+// })
 
-}).then((response) => {
+// }).then((response) => {
 
-console.log(response);
+// console.log(response);
 
-if (response.status === 201) {
-  return response.json();
-}else if (response.status === 500) {
-  throw new Error("Сервер упал")
-}else if (response.status === 400) {
-  throw new Error("Недопустие количество символов")
-}
+// if (response.status === 201) {
+//   return response.json();
+// }else if (response.status === 500) {
+//   throw new Error("Сервер упал")
+// }else if (response.status === 400) {
+//   throw new Error("Недопустие количество символов")
+// }
 
-})
-.then(() => {
+// })
+postPromise({
+  text: textElement.value,
+  name: nameElement.value
+}).then(() => {
 
 return fetchPromiseGet();
 })
