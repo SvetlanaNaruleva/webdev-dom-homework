@@ -1,3 +1,5 @@
+import {getPromise} from "./api.js"
+
 "use strict";
 // Код писать здесь
 const nameElement = document.querySelector(".add-form-name");
@@ -7,7 +9,7 @@ const commentsElements = document.querySelectorAll(".comment");
 const listCommentsElement = document.getElementById('list-comments');
 const likeButtonsElements = document.querySelectorAll('.likes');
 const containerPreloader = document.getElementById('container-preloader');
-  const containerPreloaderPost = document.getElementById('container-preloader-post');
+const containerPreloaderPost = document.getElementById('container-preloader-post');
 const addForm = document.querySelector('.add-form');
 
 // переносим данные из разметки в JS
@@ -18,22 +20,10 @@ containerPreloader.textContent = 'Пожалуйста подождите, ид�
 containerPreloaderPost.style.display = 'none';
 
 
-//   // API Получить список комментариев c Get
+// API Получить список комментариев c Get
 const fetchPromiseGet = () => {
 
-const promiseFetch = fetch('https://wedev-api.sky.pro/api/v1/Sveta-n/comments',
-  {
-    method: "GET",
-  })
-//console.log(promiseFetch);
-
-.then((response) => {
-
-  //console.log(response);
-  return response.json();
-
-})
-.then((responseData) => {
+getPromise().then((responseData) => {
     console.log(responseData);
     const appComments = responseData.comments.map((comment) => {
       return {
