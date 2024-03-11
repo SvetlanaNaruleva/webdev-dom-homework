@@ -68,14 +68,6 @@ for (const likesElement of likesElements) {
 }
 };
 
-// уязвимость 
-function sanitize(text) {
-    return text.replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll("QUOTE_BEGIN", "<div class='quote'>")
-    .replaceAll("QUOTE_END", "</div>");
-  };
-
 
 // функция добавления нового комментария
 function addNewComment() {
@@ -88,36 +80,12 @@ function addNewComment() {
   
 function postPromiseFetch() {
 
-//    fetch("https://wedev-api.sky.pro/api/v1/Sveta-n/comments", {
-
-//     method: 'POST',
-     
-//     body: JSON.stringify({
-
-//     text: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-
-//     name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-
-//     forceError: true
-
-// })
-
-// }).then((response) => {
-
-// console.log(response);
-
-// if (response.status === 201) {
-//   return response.json();
-// }else if (response.status === 500) {
-//   throw new Error("Сервер упал")
-// }else if (response.status === 400) {
-//   throw new Error("Недопустие количество символов")
-// }
-
-// })
 postPromise({
-  text: textElement.value,
-  name: nameElement.value
+
+    text: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+
+    name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+
 }).then(() => {
 
 return fetchPromiseGet();
