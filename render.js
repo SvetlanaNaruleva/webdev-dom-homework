@@ -26,6 +26,4 @@ export const renderComments = ({comments, initEventListeners, answerComment}) =>
     
     initEventListeners({comments, initEventListeners, answerComment});     
     answerComment();
-    // sanitize(text);
-    // inputValid({comments, initEventListeners, answerComment});
     };
