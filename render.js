@@ -24,6 +24,8 @@ export const renderComments = ({comments, initEventListeners, answerComment}) =>
     
     listCommentsElement.innerHTML = commentsHtml;   
     
-    initEventListeners();     
+    initEventListeners({comments, initEventListeners, answerComment});     
     answerComment();
+    // sanitize(text);
+    // inputValid({comments, initEventListeners, answerComment});
     };

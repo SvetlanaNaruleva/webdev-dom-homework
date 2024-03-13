@@ -1,5 +1,7 @@
 import {getPromise, postPromise} from "./api.js"
 import {renderComments} from "./render.js"
+import {initEventListeners} from "./listeners.js"
+// import {inputValid} from "./helpers.js"
 
 
 "use strict";
@@ -44,32 +46,7 @@ getPromise().then((responseData) => {
 fetchPromiseGet();
 
 
-//функция добвления обрабочика клика
-const initEventListeners = () => {
-const likesElements = document.querySelectorAll(".like-button");
-for (const likesElement of likesElements) {    
-  likesElement.addEventListener('click', (event) => {
-    event.stopPropagation();
-    const index = likesElement.dataset.index;
-
-    console.log(comments[index].likes);
-    if (comments[index].isLiked) {
-      comments[index].isLiked = false;
-      comments[index].likes--;
-      
-    } else {
-      comments[index].isLiked = true;
-      comments[index].likes++;
-    }
-
-    renderComments({comments, initEventListeners, answerComment});
-
-  });
-}
-};
-
-
-// функция добавления нового комментария
+// // функция добавления нового комментария
 function addNewComment() {
 
   postPromiseFetch();
@@ -82,13 +59,14 @@ function postPromiseFetch() {
 
 postPromise({
 
-    text: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+    text: sanitize(textElement.value),
 
-    name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+    name: sanitize(nameElement.value)
 
 }).then(() => {
 
 return fetchPromiseGet();
+
 })
 .then(() => {
 buttonElement.disabled = false;
@@ -113,17 +91,38 @@ console.warn(error);
 })
 };
 
+//уязвимость 
+function sanitize(text) {
+  return text
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+};
+
+
+// function inputValid() {
+//     if (nameElement.value === "" || textElement.value === "") {
+//       buttonElement.disabled = true;
+//       nameElement.placeholder = "";
+//       textElement.placeholder = "";
+// } else {
+//     nameElement.placeholder = "";
+//     textElement.placeholder = "";
+// }
+//   nameElement.addEventListener("input", inputValid);
+//   textElement.addEventListener("input", inputValid);
+// };
+
 function inputValid() {
-    if (nameElement.value === "" || textElement.value === "") {
-      buttonElement.disabled = true;
-      nameElement.placeholder = "";
-      textElement.placeholder = "";
-} else {
+  if (nameElement.value === "" || textElement.value === "") {
+    buttonElement.disabled = true;
     nameElement.placeholder = "";
     textElement.placeholder = "";
-}
-  nameElement.addEventListener("input", inputValid);
-  textElement.addEventListener("input", inputValid);
+    return false;
+  } else {
+    nameElement.placeholder = "";
+    textElement.placeholder = "";
+    return true;
+  }
 };
 
 
@@ -143,7 +142,7 @@ buttonElement.addEventListener("click", () => {
 });
 
 
-// // ответ на комментарий
+// ответ на комментарий
 function answerComment() {
 const comment = document.querySelectorAll('.comment')
 const formElementText = document.querySelector('.add-form-text')
