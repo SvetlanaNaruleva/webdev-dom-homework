@@ -1,8 +1,16 @@
+const baseUrl = "https://wedev-api.sky.pro/api/v2/Sveta-n/comments";
+
+const tokenURL = "https://wedev-api.sky.pro/api/user/login";
+
 export function getPromise() {
 
-    return fetch('https://wedev-api.sky.pro/api/v1/Sveta-n/comments',
+    return fetch( baseUrl,
   {
     method: "GET",
+    headers: {
+
+      Authorization: `Bearer ${tokenURL}`,
+    }
   })
 
 .then((response) => {
@@ -15,7 +23,7 @@ export function getPromise() {
 
 export function postPromise({ text, name}) {
 
-  return fetch("https://wedev-api.sky.pro/api/v1/Sveta-n/comments", {
+  return fetch( baseUrl, {
 
     method: 'POST',
      
@@ -25,7 +33,12 @@ export function postPromise({ text, name}) {
 
     name: name,
 
-    forceError: true
+    forceError: true,
+
+    headers: {
+
+      Authorization: `Bearer ${tokenURL}`,
+    }
 
 })
 
