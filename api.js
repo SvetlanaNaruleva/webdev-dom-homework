@@ -1,16 +1,21 @@
 const baseUrl = "https://wedev-api.sky.pro/api/v2/Sveta-n/comments";
 
-const tokenURL = "https://wedev-api.sky.pro/api/user/login";
+// const userURL = "https://wedev-api.sky.pro/api/user/login";
+
+// const newUserURL = "https://wedev-api.sky.pro/api/user"
+
+let password = prompt("Введите пароль")
 
 export function getPromise() {
 
     return fetch( baseUrl,
   {
     method: "GET",
+  
     headers: {
-
-      Authorization: `Bearer ${tokenURL}`,
+      Authorization: password
     }
+  
   })
 
 .then((response) => {
@@ -36,8 +41,7 @@ export function postPromise({ text, name}) {
     forceError: true,
 
     headers: {
-
-      Authorization: `Bearer ${tokenURL}`,
+      Authorization: password
     }
 
 })
@@ -52,7 +56,6 @@ export function postPromise({ text, name}) {
     throw new Error("Сервер упал")
   }else if (response.status === 400) {
     throw new Error("Недопустие количество символов")
-  }
-  
+  } 
   })
 }

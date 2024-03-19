@@ -5,7 +5,6 @@ import { normalizeComments } from "./helpers.js";
 
 
 "use strict";
-// Код писать здесь
 // переносим данные из разметки в JS
 export let comments = [];
 
