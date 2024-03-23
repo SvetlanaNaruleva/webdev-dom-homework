@@ -1,9 +1,9 @@
 import { loginUser, setToken, token } from "./api.js";
 
-export const renderLogin = () => {
-    const appElement = document.getElementById("app")
+export const renderLogin = ({fetchPromiseGet}) => {
+    const appElement = document.getElementById("app");
     const loginHtml = `<h1>Страница входа</h1>
-    <div class="form">
+    <div class="add-form">
       <h3 class="form-title">Форма входа</h3>
       <div class="form-row">
         <input type="text" id="login-input" class="input" placeholder="Логин" />
@@ -16,9 +16,8 @@ export const renderLogin = () => {
       </div>
       <br />
       <button class="button" id="login-button">Войти</button>
-      <a href="index.html" id="link-to-tasks">Перейти на страницу задач</a>
-    </div>
-    <button class="button-reg">Зарегестрироваться</button>`
+      <button class="button-reg">Зарегестрироваться</button>
+    </div>`
 
     appElement.innerHTML = loginHtml;
 
@@ -34,6 +33,8 @@ buttonGet.addEventListener("click", () => {
         console.log(token);
         setToken(responseData.user.token);
         console.log(token);
-    });
+    }).then(() => {
+        fetchPromiseGet();
+    })
 });
 };

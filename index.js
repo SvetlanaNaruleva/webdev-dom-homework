@@ -34,8 +34,9 @@ const fetchPromiseGet = () => {
     
   })
 };
-fetchPromiseGet();
-renderLogin();
+// fetchPromiseGet();
+renderLogin({fetchPromiseGet});
 initEventAndCommentListener();
+// fetchPromiseGet();
 
 console.log("It works!");

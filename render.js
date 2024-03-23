@@ -1,6 +1,7 @@
 const listCommentsElement = document.getElementById('list-comments');
 
 export const renderComments = ({comments, initEventListeners, answerComment}) => {
+    const appElement = document.getElementById("app");
     const commentsHtml = comments
     .map((comment, index) => {
       return ` <li class="comment">
@@ -21,8 +22,27 @@ export const renderComments = ({comments, initEventListeners, answerComment}) =>
           </div>
         </li> `
     }).join("");
+
+    const appHtml = `<div class="add-form">
+    <input
+      type="text"
+      class="add-form-name"
+      placeholder="Введите ваше имя"
+    />
+    <textarea
+      type="textarea"
+      class="add-form-text"
+      placeholder="Введите ваш коментарий"
+      rows="4"
+    ></textarea>
+    <div class="add-form-row">
+      <button class="add-form-button">Написать</button>
+    </div>
+  </div>`
     
     listCommentsElement.innerHTML = commentsHtml;   
+
+    appElement.innerHTML = appHtml; 
     
     initEventListeners({comments, initEventListeners, answerComment});     
     answerComment();
