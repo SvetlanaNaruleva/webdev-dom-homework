@@ -1,4 +1,4 @@
-import { loginUser, setToken, token } from "./api";
+import { loginUser, setToken, token } from "./api.js";
 
 export const renderLogin = () => {
     const appElement = document.getElementById("app")
