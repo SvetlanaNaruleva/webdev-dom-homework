@@ -2,6 +2,7 @@ import {getPromise, postPromise} from "./api.js"
 import {renderComments} from "./render.js"
 import {initEventListeners, initEventAndCommentListener, answerComment} from "./listeners.js"
 import { normalizeComments } from "./helpers.js";
+import { renderLogin } from "./login.js";
 
 
 "use strict";
@@ -34,6 +35,7 @@ const fetchPromiseGet = () => {
   })
 };
 fetchPromiseGet();
+// renderLogin();
 initEventAndCommentListener();
 
 console.log("It works!");
