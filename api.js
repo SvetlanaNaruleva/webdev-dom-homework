@@ -2,14 +2,18 @@ const baseUrl = "https://wedev-api.sky.pro/api/v2/Sveta-n/comments";
 
 const loginURL = "https://wedev-api.sky.pro/api/user/login";
 
-// const userURL = "https://wedev-api.sky.pro/api/user"
 
 export let token;
+
+export let user;
 
 export const setToken = (newToken) => {
    token = newToken;
 } 
 
+export const setUser = (newUser) => {
+  user = newUser;
+} 
 
 export function getPromise() {
 
@@ -63,9 +67,32 @@ export function postPromise({ text, name}) {
     throw new Error("Сервер упал")
   }else if (response.status === 400) {
     throw new Error("Недопустие количество символов")
-  } 
+  }
   })
 }
+
+// export function loginUser({ login, password }) {
+//   return fetch(loginURL, {
+//     method: "POST",
+//     body: JSON.stringify({
+//       login,
+//       password,
+//     }),
+//   })
+//   .then((response) => {
+//     if (response.status === 400) {
+//       throw new Error("Неправильный логин или пароль");
+//     }
+//   })
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .catch((error) => {
+//     if (error.message === 'Неправильный логин или пароль') {
+//       alert("Неправильный логин или пароль")
+//     } 
+//   });
+// }
 
 export function loginUser({ login, password }) {
   return fetch(loginURL, {
@@ -74,7 +101,17 @@ export function loginUser({ login, password }) {
       login,
       password,
     }),
-  }).then((response) => {
-    return response.json();
+  })
+  .then((response) => {
+    if (response.status === 201) {
+      return response.json();
+    }
+    if (response.status === 400) {
+      throw new Error("Неправильный логин или пароль");
+    }
+  })
+  .catch((error) => {
+    alert(error);
+    console.warn(error);
   });
 }

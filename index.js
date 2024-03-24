@@ -1,8 +1,6 @@
-import {getPromise, postPromise} from "./api.js"
-import {renderComments} from "./render.js"
-import {initEventListeners, initEventAndCommentListener, answerComment} from "./listeners.js"
+import {getPromise, postPromise} from "./api.js";
+import {renderComments} from "./render.js";
 import { normalizeComments } from "./helpers.js";
-import { renderLogin } from "./login.js";
 
 
 "use strict";
@@ -14,29 +12,18 @@ export function setComments(newComments) {
 }
 
 // API Получить список комментариев c Get
-const fetchPromiseGet = () => {
-
-  const containerPreloader = document.getElementById('container-preloader');
-  const containerPreloaderPost = document.getElementById('container-preloader-post');
-
-  containerPreloader.textContent = 'Пожалуйста подождите, идет загрузка комментариев...';
-  containerPreloaderPost.style.display = 'none';
+export const fetchPromiseGet = () => {
 
   getPromise().then((responseData) => {
     // console.log(responseData);
     const appComments = normalizeComments(responseData.comments)
     // получили данные и рендерим их в приложении
     comments = appComments;
-    containerPreloader.textContent = '';
-    containerPreloaderPost.style.display = 'block';
     //console.log(comments)
-    renderComments({comments, initEventListeners, answerComment});
+    renderComments({comments});
     
   })
 };
-// fetchPromiseGet();
-renderLogin({fetchPromiseGet});
-initEventAndCommentListener();
-// fetchPromiseGet();
+fetchPromiseGet();
 
 console.log("It works!");
