@@ -27,30 +27,27 @@ export const renderLogin = () => {
     const passwordInput = document.getElementById("password-input");
 
 buttonGet.addEventListener("click", () => {
-    // loginUser({
-    //     login: loginInput.value,
-    //     password: passwordInput.value
-    // }).then((responseData) => {
-    //     console.log(token);
-    //     setToken(responseData.user.token);
-    //     setUser(responseData.user.name);
-    //     console.log(token);
-    // }).then(() => {
-    //     fetchPromiseGet();
-    // })
     loginUser({
-      login: loginInput.value,
-      password: passwordInput.value
-  }).then((responseData) => {
-      if (responseData && responseData.user) {
-          console.log(responseData.user.token);
-          setToken(responseData.user.token);
-          setUser(responseData.user.name);
-      } else {
-          console.error("Ошибка: данные пользователя не найдены");
+        login: loginInput.value,
+        password: passwordInput.value
+    }).then((responseData) => {
+        // console.log(token);
+        setToken(responseData.user.token);
+        setUser(responseData.user.name);
+        console.log(token);
+    }).then(() => {
+        fetchPromiseGet();
+    }).catch((error) => {
+      if (error.message === "Сервер упал") {
+        alert("Сервер упал, попробуй еще раз")
       }
-  }).then(() => {
-      fetchPromiseGet();
-  });
+      if (error.message === "Неправильный логин или пароль") {
+        alert("Неправильный логин или пароль")
+      }
+      if (error.message === 'Failed to fetch') {
+        alert('Интернет не работает, попробуйте позже');
+      }
+      console.warn(error);
+    })
 });
 };

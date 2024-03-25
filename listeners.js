@@ -90,9 +90,6 @@ export const initEventAndCommentListener = () => {
         if (error.message === 'Failed to fetch') {
           alert('Интернет не работает, попробуйте позже');
         }
-        // if (error.message === 'Неправильный логин или пароль') {
-        //   alert("Неправильный логин или пароль")
-        // } 
         console.warn(error);
         })
       

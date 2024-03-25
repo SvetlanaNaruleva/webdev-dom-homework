@@ -71,29 +71,6 @@ export function postPromise({ text, name}) {
   })
 }
 
-// export function loginUser({ login, password }) {
-//   return fetch(loginURL, {
-//     method: "POST",
-//     body: JSON.stringify({
-//       login,
-//       password,
-//     }),
-//   })
-//   .then((response) => {
-//     if (response.status === 400) {
-//       throw new Error("Неправильный логин или пароль");
-//     }
-//   })
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .catch((error) => {
-//     if (error.message === 'Неправильный логин или пароль') {
-//       alert("Неправильный логин или пароль")
-//     } 
-//   });
-// }
-
 export function loginUser({ login, password }) {
   return fetch(loginURL, {
     method: "POST",
@@ -105,13 +82,10 @@ export function loginUser({ login, password }) {
   .then((response) => {
     if (response.status === 201) {
       return response.json();
+    }else if (response.status === 500) {
+      throw new Error("Сервер упал")
+    }else if (response.status === 400) {
+      throw new Error("Неправильный логин или пароль")
     }
-    if (response.status === 400) {
-      throw new Error("Неправильный логин или пароль");
-    }
-  })
-  .catch((error) => {
-    alert(error);
-    console.warn(error);
-  });
+    })
 }
