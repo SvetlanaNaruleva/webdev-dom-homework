@@ -27,16 +27,30 @@ export const renderLogin = () => {
     const passwordInput = document.getElementById("password-input");
 
 buttonGet.addEventListener("click", () => {
+    // loginUser({
+    //     login: loginInput.value,
+    //     password: passwordInput.value
+    // }).then((responseData) => {
+    //     console.log(token);
+    //     setToken(responseData.user.token);
+    //     setUser(responseData.user.name);
+    //     console.log(token);
+    // }).then(() => {
+    //     fetchPromiseGet();
+    // })
     loginUser({
-        login: loginInput.value,
-        password: passwordInput.value
-    }).then((responseData) => {
-        console.log(token);
-        setToken(responseData.user.token);
-        setUser(responseData.user.name);
-        console.log(token);
-    }).then(() => {
-        fetchPromiseGet();
-    })
+      login: loginInput.value,
+      password: passwordInput.value
+  }).then((responseData) => {
+      if (responseData && responseData.user) {
+          console.log(responseData.user.token);
+          setToken(responseData.user.token);
+          setUser(responseData.user.name);
+      } else {
+          console.error("Ошибка: данные пользователя не найдены");
+      }
+  }).then(() => {
+      fetchPromiseGet();
+  });
 });
 };
