@@ -22,6 +22,14 @@ export const fetchPromiseGet = () => {
     //console.log(comments)
     renderComments({comments});
     
+  }).catch((error) => {
+    if (error.message === "Сервер упал") {
+      alert("Сервер упал, попробуй еще раз")
+    }
+    if (error.message === 'Failed to fetch') {
+      alert('Интернет не работает, попробуйте позже');
+    }
+    console.warn(error);
   })
 };
 fetchPromiseGet();

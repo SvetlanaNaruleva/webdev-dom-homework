@@ -30,7 +30,11 @@ export function getPromise() {
 
 .then((response) => {
 
-  return response.json();
+  if (response.status === 500) {
+    throw new Error("Сервер упал")
+  } else {
+    return response.json();
+  }
 
 })
 
