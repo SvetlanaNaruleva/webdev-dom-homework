@@ -1,14 +1,19 @@
-import { getPromise, postPromise } from "./api.js";
+import { getPromise, postPromise, token } from "./api.js";
 import { sanitize , normalizeComments} from "./helpers.js";
 import {renderComments} from "./render.js"
 import {comments, setComments} from "./index.js"
 
-//функция добвления обрабочика клика
-export const initEventListeners = ({comments, initEventListeners, answerComment}) => {
+//функция добавления лайка
+export const initEventListeners = ({comments}) => {
+  
     const likesElements = document.querySelectorAll(".like-button");
     for (const likesElement of likesElements) {    
       likesElement.addEventListener('click', (event) => {
         event.stopPropagation();
+
+        if (!token) {
+          return
+        }
 
         const index = likesElement.dataset.index;
     
@@ -22,7 +27,7 @@ export const initEventListeners = ({comments, initEventListeners, answerComment}
           comments[index].likes++;
         }
     
-        renderComments({comments, initEventListeners, answerComment});
+        renderComments({comments});
     
       });
     }
@@ -32,6 +37,10 @@ export const initEventAndCommentListener = () => {
     const nameElement = document.querySelector(".add-form-name");
     const textElement = document.querySelector(".add-form-text");
     const buttonElement = document.querySelector(".add-form-button");
+
+    if (!token) {
+      return
+    }
 
     buttonElement.addEventListener("click", () => {
         nameElement.classList.remove("error");
@@ -89,15 +98,16 @@ export const initEventAndCommentListener = () => {
       
       });
 }
-//ответ на комментарии
+//функция ответа на комментарии
    export function answerComment() {
-    const comment = document.querySelectorAll('.comment')
-    const formElementText = document.querySelector('.add-form-text')
-    const formElementName = document.querySelector('.add-form-name')
+    if (!token) {
+      return
+    }
+    const comment = document.querySelectorAll('.comment');
+    const formElementText = document.querySelector('.add-form-text');
     comment.forEach((el, index) => {
     el.addEventListener('click', () => {
     formElementText.value = `>${comments[index].name} \n ${comments[index].comment}`
     })
     });
     }
-

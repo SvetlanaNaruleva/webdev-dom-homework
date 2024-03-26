@@ -1,6 +1,9 @@
-const listCommentsElement = document.getElementById('list-comments');
+import { token, user } from "./api.js";
+import { answerComment, initEventAndCommentListener, initEventListeners } from "./listeners.js";
+import { renderLogin } from "./login.js";
 
-export const renderComments = ({comments, initEventListeners, answerComment}) => {
+export const renderComments = ({comments}) => {
+    const appElement = document.getElementById("app");
     const commentsHtml = comments
     .map((comment, index) => {
       return ` <li class="comment">
@@ -21,9 +24,46 @@ export const renderComments = ({comments, initEventListeners, answerComment}) =>
           </div>
         </li> `
     }).join("");
+
+    const formHtml = `<div class="add-form">
+    <input
+      type="text"
+      class="add-form-name"
+      placeholder="Введите ваше имя"
+      value=${user}
+      disabled
+    />
+    <textarea
+      type="textarea"
+      class="add-form-text"
+      placeholder="Введите ваш коментарий"
+      rows="4"
+    ></textarea>
+    <div class="add-form-row">
+      <button class="add-form-button">Написать</button>
+    </div>
+  </div>`
     
-    listCommentsElement.innerHTML = commentsHtml;   
+    // listCommentsElement.innerHTML = commentsHtml;   
+
+    appElement.innerHTML = `
+    <ul class="comments" id="list-comments" >${commentsHtml}</ul>
+    ${token ? formHtml : '<p class="login-btn">Чтобы добавить комментарий, авторизуйтесь</p>'}
+    `; 
+
+    function actionLogin() {
+      if (token) {
+        return
+      }
+      const loginBtn = document.querySelector('.login-btn');
+      loginBtn.addEventListener('click', () => {
+      renderLogin();
+      })
+    }
+
+    actionLogin();
     
-    initEventListeners({comments, initEventListeners, answerComment});     
+    initEventListeners({comments});
+    initEventAndCommentListener();     
     answerComment();
     };
