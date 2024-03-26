@@ -8,8 +8,9 @@
 
   <body>
     <div class="container">
+      <div id="container-preloader"></div>
       <ul class="comments" id="list-comments" >
-        <li class="comment">
+        <!-- <li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
             <div>12.02.22 12:18</div>
@@ -42,8 +43,9 @@
               <button class="like-button"></button>
             </div>
           </div>
-        </li>
+        </li> -->
       </ul>
+      <div id="container-preloader-post"></div>
       <div class="add-form">
         <input
           type="text"
@@ -76,6 +78,9 @@
     const commentsElements = document.querySelectorAll(".comment");
     const listCommentsElement = document.getElementById('list-comments');
     const likeButtonsElements = document.querySelectorAll('.likes');
+    const containerPreloader = document.getElementById('container-preloader');
+	  const containerPreloaderPost = document.getElementById('container-preloader-post');
+    const addForm = document.querySelector('.add-form');
   
   // переносим данные из разметки в JS
 let comments = [
@@ -95,21 +100,28 @@ let comments = [
   // },
 ];
 
+
+
+    containerPreloader.textContent = 'Пожалуйста подождите, идет загрузка комментариев...';
+    containerPreloaderPost.style.display = 'none';
+
+
   //   // API Получить список комментариев c Get
   const fetchPromiseGet = () => {
 
   const promiseFetch = fetch('https://wedev-api.sky.pro/api/v1/Sveta-n/comments',
       {
         method: "GET",
-      });
+      })
     //console.log(promiseFetch);
 
-    promiseFetch.then((response) => {
+    .then((response) => {
   
       //console.log(response);
-      const jsonPromise = response.json();
-      // Подписываемся на результат преобразования
-      jsonPromise.then((responseData) => {
+      return response.json();
+
+    })
+    .then((responseData) => {
         console.log(responseData);
         const appComments = responseData.comments.map((comment) => {
           return {
@@ -122,11 +134,16 @@ let comments = [
         });
         // получили данные и рендерим их в приложении
         comments = appComments;
+        containerPreloader.textContent = '';
+        containerPreloaderPost.style.display = 'block';
         //console.log(comments)
         renderComments();
-      });
-
-    });
+        
+      })
+      .then((data) => {
+    buttonElement.disabled = false;
+    buttonElement.textContent = 'Написать';
+  })
   };
   fetchPromiseGet();
 
@@ -198,17 +215,16 @@ const renderComments = () => {
 // функция добавления нового комментария
     function addNewComment() {
      // добавление нового
-      comments.push({
-      name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-      time: new Date().toLocaleString(),
-      comment: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
-      likes: 0,
-      isLiked: ''
-      });
-      renderComments();
+      // comments.push({
+      // name: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+      // time: new Date().toLocaleString(),
+      // comment: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+      // likes: 0,
+      // isLiked: ''
+      // });
+      // renderComments();
       postPromiseFetch();
     };
-
 
 // Добавить новый комментарий, метод POST
       
@@ -219,15 +235,20 @@ const renderComments = () => {
          
         body: JSON.stringify({
 
-        name: textElement.value,
+        text: nameElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;"),
+
+        name: textElement.value.replaceAll("<", "&lt;").replaceAll(">", "&gt;")
  
-        text: nameElement.value 
     })
 
   }).then((response) => {
 
-     fetchPromiseGet()
+    //  fetchPromiseGet()
+    return response.json();
 
+  })
+  .then((responseData) => {
+    fetchPromiseGet();
   });
     };
     
@@ -257,6 +278,8 @@ const renderComments = () => {
 
       nameElement.value = "";
       textElement.value = "";
+      buttonElement.disabled = true;
+      buttonElement.textContent = 'Еще чуть-чуть и все появится...';
     
 });
 
