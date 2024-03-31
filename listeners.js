@@ -28,7 +28,7 @@ export const initEventListeners = ({comments}) => {
         }
     
         renderComments({comments});
-    
+
       });
     }
     };
@@ -66,7 +66,7 @@ export const initEventAndCommentListener = () => {
             // получили данные и рендерим их в приложении
             setComments(appComments);
             //console.log(comments)
-            renderComments({comments, initEventListeners, answerComment});
+            renderComments({comments});
             
           })
         

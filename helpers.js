@@ -3,7 +3,9 @@ import { format } from "date-fns";
 export function sanitize(text) {
     return text
       .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
+      .replaceAll(">", "&gt;")
+      .trim() // для удаления пробелов в начале и конце строки
+      .replaceAll(" ", ""); //для удаления всех пробелов внутри строки
   };
 
 export function normalizeComments(comments) {

@@ -17,7 +17,6 @@ export const renderLogin = () => {
       </div>
       <br />
       <button class="button" id="login-button">Войти</button>
-      <button class="button-reg">Зарегистрироваться</button>
     </div>`
 
     appElement.innerHTML = loginHtml;
@@ -27,6 +26,10 @@ export const renderLogin = () => {
     const passwordInput = document.getElementById("password-input");
 
 buttonGet.addEventListener("click", () => {
+  if (!loginInput.value || !passwordInput.value) {
+    alert("Пожалуйста, заполните все поля.");
+    return;
+}
     loginUser({
         login: loginInput.value,
         password: passwordInput.value
