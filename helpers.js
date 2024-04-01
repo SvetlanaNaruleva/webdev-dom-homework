@@ -4,7 +4,7 @@ export function sanitize(text) {
     return text
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
-      .trim() // для удаления пробелов в начале и конце строки
+      // .trim() // для удаления пробелов в начале и конце строки
       .replaceAll(" ", ""); //для удаления всех пробелов внутри строки
   };
 

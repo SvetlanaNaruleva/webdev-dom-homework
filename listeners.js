@@ -52,9 +52,9 @@ export const initEventAndCommentListener = () => {
         }
         postPromise({
 
-            text: sanitize(textElement.value),
+            text: sanitize(textElement.value.trim()),
         
-            name: sanitize(nameElement.value)
+            name: sanitize(nameElement.value.trim())
         
         }).then(() => {
         
