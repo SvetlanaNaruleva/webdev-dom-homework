@@ -1,5 +1,5 @@
 import { loginUser, setToken, setUser, token } from "./api.js";
-import { fetchPromiseGet } from "./index.js";
+import { fetchPromiseGet, renderApp } from "./index.js";
 
 export const renderLogin = () => {
     const appElement = document.getElementById("app");
@@ -39,7 +39,7 @@ buttonGet.addEventListener("click", () => {
         setUser(responseData.user.name);
         console.log(token);
     }).then(() => {
-        fetchPromiseGet();
+        renderApp();
     }).catch((error) => {
       if (error.message === "Сервер упал") {
         alert("Сервер упал, попробуй еще раз")

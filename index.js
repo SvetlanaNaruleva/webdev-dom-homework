@@ -1,5 +1,5 @@
 import {getPromise, postPromise} from "./api.js";
-import {renderComments} from "./render.js";
+import {renderComments, renderForm} from "./render.js";
 import { normalizeComments } from "./helpers.js";
 
 
@@ -32,6 +32,17 @@ export const fetchPromiseGet = () => {
     console.warn(error);
   })
 };
-fetchPromiseGet();
+
+
+export function renderApp() {
+  const appElement = document.getElementById("app");
+  appElement.innerHTML = `
+  <ul class="comments" id="list-comments" ></ul>
+  <div class="form" ></div>`
+  renderForm();
+  fetchPromiseGet();
+}
+
+renderApp();
 
 console.log("It works!");

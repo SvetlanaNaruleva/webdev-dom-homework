@@ -45,16 +45,16 @@ export const initEventAndCommentListener = () => {
     buttonElement.addEventListener("click", () => {
         nameElement.classList.remove("error");
         textElement.classList.remove("error");
-        if (nameElement.value === "" || textElement.value === "") {
+        if (nameElement.value.trim() === "" || textElement.value.trim() === "") {
           nameElement.classList.add("error");
           textElement.classList.add("error");
           return;
         }
         postPromise({
 
-            text: sanitize(textElement.value.trim()),
+            text: sanitize(textElement.value),
         
-            name: sanitize(nameElement.value.trim())
+            name: sanitize(nameElement.value)
         
         }).then(() => {
         
